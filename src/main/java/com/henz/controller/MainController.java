@@ -26,4 +26,12 @@ public class MainController {
 		return mv;
 	}
 
+	@RequestMapping(value={"myMedicare"}, method = RequestMethod.GET)
+	public ModelAndView showMyMedicarePage() {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("profile-dropdown/MyMedicare");
+		
+		return mv;
+	}
 }
