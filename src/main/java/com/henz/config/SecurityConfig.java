@@ -57,13 +57,10 @@ public class SecurityConfig { //extends WebSecurityConfigurerAdapter{
 			.disable() //disable cors and csrf
 			.authorizeRequests()
 			.antMatchers("/admin/**").hasAuthority("ADMIN")
-			/*.antMatchers("/home/**").hasAnyAuthority("ADMIN","USER")
-			.antMatchers("/support/**").hasAnyAuthority("ADMIN","USER")
-			.antMatchers("/viewProfile/**").hasAnyAuthority("ADMIN","USER")
 			.antMatchers("/resetPasswordForm/**").hasAnyAuthority("ADMIN","USER")
 			.antMatchers("/resetPassword/**").hasAnyAuthority("ADMIN","USER")
 			.antMatchers("/verifyPasswordReset/**").hasAnyAuthority("ADMIN","USER")
-			.antMatchers("/savePassword/**").hasAnyAuthority("ADMIN","USER")*/
+			.antMatchers("/savePassword/**").hasAnyAuthority("ADMIN","USER")
 			//.antMatchers(WHITE_LIST_URLS).permitAll()
 			.and().formLogin().loginPage("/login");
 		
