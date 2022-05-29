@@ -47,11 +47,7 @@
       </div>
       </section>
     </main>
-    <footer class="footer mt-auto py-3 bg-dark fixed-bottom">
-        <div class="container text-center">
-          <span class="text-muted text-center font-weight-bold">&#169 2022 MediCare | Switzerland | hjoel87@gmx.ch</span>
-        </div>
-    </footer>
+    <footer th:replace="fragments/footer.html :: footer"></footer>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -67,7 +63,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <!-- set home link from navbar fragment to active -->
+    <!-- set dropdown from navbar fragment to active -->
     <script type="text/javascript">
     	document.getElementById("profileDropDown").setAttribute("class", "nav-item dropdown active");
     </script>

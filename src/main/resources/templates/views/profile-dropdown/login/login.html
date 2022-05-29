@@ -4,31 +4,48 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Support</title>
-	<link
+    <title>Login</title>
+    <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <!-- use relative path ../ to properly show images. If not, path 'home/' for example will not show the images for some reason, it would show the image only if hitting '/home' -->
-    <link rel="stylesheet" type="text/css" href="../css/background.css"/>
-    <style>
-    	td a {
-		    display:block;
-		    width:100%;
-		}
-    </style>
+	<link rel="stylesheet" type="text/css" href="../css/background.css"/>
   </head>
   <body> 
   	<nav th:replace="fragments/navbar.html :: navbar"></nav>
     <main class="col-md-8 mx-auto">
       <header class="text-center">
-        <h1 class="text-primary text-uppercase my-5 font-weight-bold">Support</h1>
-        <h5 class="text-info font-weight-bold">Please contact me by following email address: hjoel87@gmx.ch</h5>
+        <h1 class="text-primary text-uppercase my-5 font-weight-bold">Login</h1>
+        <h5 class="text-info font-weight-bold">Provide your credentials to login</h5>
       </header>
       <hr class="border-dark" />
       <section>
+	      <div class="container-fluid text-center">
+	      	<div th:if="${param.error}">
+	      	  	<p class="text-danger">Invalid Username or Password</p>
+	      	</div>
+	      	<div th:if="${param.logout}">
+	      	  	<p class="text-warning">You have been logged out</p>
+	      	</div>
+	      	<!-- with Spring security and custom login page, we do not have to define a controller method for post /login -->
+	      	<form th:action="@{/login}" method="post" class="font-weight-bold" style="max-width: 350px; margin: 0 auto;">
+	      		<div class="border border-secondary p-3 rounded">
+	      			<p>
+	      				<label for="username">Username</label><br />
+	              		<input type="text" id="username" name="username" class="form-control" autocomplete="off" autofocus required/>
+	      			</p>
+	      			<p>
+	      				<label for="password">Password</label><br />
+	              		<input type="password" id="password" name="password" class="form-control" required/>
+	      			</p>
+	      			<p>
+	      				<input type="submit" value="Login" class="btn btn-primary"/>
+	      			</p>
+	      		</div>
+	         </form>
+	      </div>
       </section>
     </main>
     <footer th:replace="fragments/footer.html :: footer"></footer>
