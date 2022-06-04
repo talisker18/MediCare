@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+	<link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- use relative path ../ to properly show images. If not, path 'home/' for example will not show the images for some reason, it would show the image only if hitting '/home' -->
+    <link rel="stylesheet" type="text/css" href="../css/background.css"/>
+    <style>
+    	td a {
+		    display:block;
+		    width:100%;
+		}
+    </style>
+  </head>
+  <body> 
+  	<nav th:replace="fragments/navbar.html :: navbar"></nav>
+    <main class="col-md-8 mx-auto">
+      <header class="text-center">
+        <h1 class="text-primary text-uppercase my-5 font-weight-bold">Admin</h1>
+      </header>
+      <hr class="border-dark" />
+      <section>
+      	<section>
+       <div class="container border border-dark text-center my-5"> <!--container fluid would span the whole screen-->
+        <div class="row mt-5">
+            <div class="col">
+            	<a th:href="@{/admin/productList}">
+            		<button type="button" class="btn btn-outline-primary btn-lg font-weight-bold">Product List</button>
+            	</a>
+            </div>
+        </div><br><br>
+        <div class="row mt-5">
+            <div class="col">
+            	<a th:href="@{/admin/addProduct}">
+            		<button type="button" class="btn btn-outline-primary btn-lg font-weight-bold">Add new Product</button>
+            	</a>
+            </div>
+        </div><br><br>
+      </div>
+      </section>
+      </section>
+    </main>
+    <footer th:replace="fragments/footer.html :: footer"></footer>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <!-- set home link from navbar fragment to active -->
+    <script type="text/javascript">
+    	document.getElementById("homeLink").setAttribute("class", "nav-item active");
+    </script>
+  </body>
+</html>

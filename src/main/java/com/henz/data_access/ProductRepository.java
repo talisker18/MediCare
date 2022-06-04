@@ -64,17 +64,30 @@ public class ProductRepository {
 			pcm.setProductDescription(p.getDescription());
 			pcm.setProductImgSource(p.getImgSource());
 			pcm.setProductPrice(p.getPrice());
+			pcm.setEnabled(p.isEnabled());
 			return pcm;
 		}else {
 			throw new EntityNotFoundException("product with id: "+id+" not found");
 		}
 	}
 	
-	public void deleteById(Long id) {
+	public void disableById(Long id) {
 		Product p = this.findById(id);
 		
 		if(p != null) {
-			this.entityManager.remove(p);
+			p.setEnabled(false);
+			this.entityManager.merge(p);
+		}else {
+			throw new EntityNotFoundException("product with id: "+id+" not found");
+		}
+	}
+	
+	public void enableById(Long id) {
+		Product p = this.findById(id);
+		
+		if(p != null) {
+			p.setEnabled(true);
+			this.entityManager.merge(p);
 		}else {
 			throw new EntityNotFoundException("product with id: "+id+" not found");
 		}
@@ -120,6 +133,7 @@ public class ProductRepository {
             	p.setDescription(productCategoryModel.getProductDescription());
         		p.setCategory(c);
         		p.setPrice(productCategoryModel.getProductPrice());
+        		p.setEnabled(productCategoryModel.isEnabled());
         		
         		if(!file.getOriginalFilename().equals("")) {
         			p.setImgSource("../img/"+file.getOriginalFilename());
@@ -134,6 +148,7 @@ public class ProductRepository {
             	p.setDescription(productCategoryModel.getProductDescription());
         		p.setCategory(c);
         		p.setPrice(productCategoryModel.getProductPrice());
+        		p.setEnabled(productCategoryModel.isEnabled());
         		
         		if(!file.getOriginalFilename().equals("")) {
         			p.setImgSource("../img/"+file.getOriginalFilename());
@@ -168,6 +183,7 @@ public class ProductRepository {
 			pcm.setProductDescription(p.getDescription());
 			pcm.setProductImgSource(p.getImgSource());
 			pcm.setProductPrice(p.getPrice());
+			pcm.setEnabled(p.isEnabled());
 			listWithProductCategoryModel.add(pcm);
 		}
 		
@@ -195,6 +211,7 @@ public class ProductRepository {
 			pcm.setCategoryId(p.getCategory().getId());
 			pcm.setCategoryText(p.getCategory().getCategory().toString());
 			pcm.setProductDescription(p.getDescription());
+			pcm.setEnabled(p.isEnabled());
 			
 			listWithModels.add(pcm);
 		}

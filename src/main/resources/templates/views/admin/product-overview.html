@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Products</title>
+	<link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- using datatable -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.6.0/jq-3.6.0/dt-1.11.5/datatables.min.css"/>
+    <!-- use relative path ../ to properly show images. If not, path 'home/' for example will not show the images for some reason, it would show the image only if hitting '/home' -->
+    <link rel="stylesheet" type="text/css" href="../css/background.css"/>
+    <style>
+        input.category {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+  </head>
+  <body> 
+  	<nav th:replace="fragments/navbar.html :: navbar"></nav>
+    <main class="col-md-8 mx-auto">
+      <header class="text-center">
+        <h1 class="text-primary text-uppercase my-5 font-weight-bold">Admin - Products</h1>
+      </header>
+      <hr class="border-dark" />
+      <section>
+      	<div class="container">
+      		<h3 class="my-5 font-weight-bold"><u>Filter by Category:</u></h3>
+      		<input type="checkbox" class="category" name="category" value="SKIN_AND_HAIR" id="SKIN_AND_HAIR" />
+      		<label for="SKIN_AND_HAIR" class="h4">SKIN_AND_HAIR</label>
+      		<br>
+			<input type="checkbox" class="category" name="category" value="DIGESTION" id="DIGESTION" />
+      		<label for="DIGESTION" class="h4">DIGESTION</label>
+      		<br>
+      		<input type="checkbox" class="category" name="category" value="EARS_AND_EYES" id="EARS_AND_EYES" />
+      		<label for="EARS_AND_EYES" class="h4">EARS_AND_EYES</label>
+      		<br>
+      		<input type="checkbox" class="category" name="category" value="ACHES" id="ACHES" />
+      		<label for="ACHES" class="h4">ACHES</label>
+      		<br>
+      		<input type="checkbox" class="category" name="category" value="COLD_MEDICATION" id="COLD_MEDICATION" />
+      		<label for="COLD_MEDICATION" class="h4">COLD_MEDICATION</label>
+      		<br>
+      		<input type="checkbox" class="category" name="category" value="OTHER" id="OTHER" />
+      		<label for="OTHER" class="h4">OTHER</label>
+			<br><br><br>
+			<table class="table table-bordered table-striped" id="product-table">
+				<thead>
+					<tr>
+						<th>Image</th>
+						<th>Product Id</th>
+						<th>Category</th>
+						<th>Product Description</th>
+						<th>Price in $</th>
+						<th>Image Source</th>
+						<th>Enabled</th>
+						<th>Action</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product: ${productList}">
+						<td><img th:src="${product.productImgSource}" alt="productImg" width="50" height="50"></td>
+						<td th:text="${product.productId}"></td>
+						<td th:text="${product.categoryText}"></td>
+						<td th:text="${product.productDescription}"></td>
+						<td th:text="${product.productPrice}"></td>
+						<td th:text="${product.productImgSource}"></td>
+						<td th:text="${product.enabled}"></td>
+						<td>
+							<a th:href="@{/admin/showUpdateForm(productId=${product.productId})}" class="btn btn-info">Update</a>
+						</td>
+						<td th:switch="${product.enabled}">
+							<a th:case="true" th:href="@{/admin/disableProduct(productId=${product.productId})}" class="btn btn-danger ml-2">Disable</a>
+							<a th:case="false" th:href="@{/admin/enableProduct(productId=${product.productId})}" class="btn btn-success ml-2">Enable</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+      	<div class="row my-5">
+            <div class="col">
+            	<a th:href="@{/admin}">
+            		Go back to Admin page
+            	</a>
+            </div>
+        </div><br><br>
+      </section>
+    </main>
+    <footer th:replace="fragments/footer.html :: footer"></footer>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <!-- set home link from navbar fragment to active -->
+    <script type="text/javascript">
+    	document.getElementById("homeLink").setAttribute("class", "nav-item active");
+    </script>
+    <!-- using datatable -->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.6.0/jq-3.6.0/dt-1.11.5/datatables.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("#product-table").DataTable({ //get element with this id
+				'aoColumnDefs': [{
+					'bSortable': false,
+					'aTargets': [-1,-2] //remove sorting for 'Update' and 'Delete' column
+				}]
+			});
+		})
+	</script>
+	<!-- script for category filter -->
+	<script>
+		$(document).ready(function(){
+	        $(".category").on("click", function() {
+		        name_list = []
+		        $("#product-table tr").hide()
+		        var flag = 1
+		        $("input:checkbox[name=category]:checked").each(function(){
+		                flag = 0;
+		                var value = $(this).val().toLowerCase();
+		                $("#product-table tr").filter(function() {
+		                    if($(this).text().toLowerCase().indexOf(value) > -1)
+		                        $(this).show()
+		                });
+		            });
+		            if(flag == 1)
+		                $("#product-table tr").show()
+	        });
+		});
+	</script>
+  </body>
+</html>

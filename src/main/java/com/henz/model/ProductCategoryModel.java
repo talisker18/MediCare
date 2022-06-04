@@ -8,6 +8,7 @@ public class ProductCategoryModel {
 	private String categoryText;
 	private Long categoryId;
 	private double productPrice;
+	private boolean enabled;
 	
 	public ProductCategoryModel() {
 		super();
@@ -15,7 +16,7 @@ public class ProductCategoryModel {
 	}
 
 	public ProductCategoryModel(Long productId, String productDescription, String productImgSource, String categoryText,
-			Long categoryId, double productPrice) {
+			Long categoryId, double productPrice, boolean enabled) {
 		super();
 		this.productId = productId;
 		this.productDescription = productDescription;
@@ -23,6 +24,7 @@ public class ProductCategoryModel {
 		this.categoryText = categoryText;
 		this.categoryId = categoryId;
 		this.productPrice = productPrice;
+		this.enabled = enabled;
 	}
 	
 	public Long getProductId() {
@@ -73,10 +75,18 @@ public class ProductCategoryModel {
 		this.productPrice = productPrice;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductCategoryModel [productId=" + productId + ", productDescription=" + productDescription
 				+ ", productImgSource=" + productImgSource + ", categoryText=" + categoryText + ", categoryId="
-				+ categoryId + ", productPrice=" + productPrice + "]";
+				+ categoryId + ", productPrice=" + productPrice + ", enabled=" + enabled + "]";
 	}
 }
