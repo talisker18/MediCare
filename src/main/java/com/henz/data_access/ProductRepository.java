@@ -1,7 +1,6 @@
 package com.henz.data_access;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,7 +10,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
@@ -71,51 +69,6 @@ public class ProductRepository {
 		}else {
 			throw new EntityNotFoundException("product with id: "+id+" not found");
 		}
-	}
-	
-	public ProductCategoryModel findNewestProductAndReturnProductCategoryModel() {
-		
-		TypedQuery<Product> query = this.entityManager.createQuery("Select p from Product p order by p.id desc",Product.class);
-		query.setMaxResults(1);
-		Product p = query.getSingleResult();
-		
-		System.out.println(p.getId());
-		
-		ProductCategoryModel pcm = new ProductCategoryModel();
-		pcm.setProductId(p.getId());
-		pcm.setCategoryId(p.getCategory().getId());
-		pcm.setCategoryText(p.getCategory().getCategory().toString());
-		pcm.setProductDescription(p.getDescription());
-		pcm.setProductImgSource(p.getImgSource());
-		pcm.setProductPrice(p.getPrice());
-		pcm.setEnabled(p.isEnabled());
-		return pcm;
-	}
-	
-	//uses a native sql query to get the top five sellers
-	public List<ProductCategoryModel> getTopFiveSellersAndReturnProductCategoryModel() {
-		// select p.product_id, p.description, count(p.product_id) from product p inner join order_product op on p.product_id = op.product_id group by p.product_id order by count(p.product_id) desc limit 5;
-		Query query = entityManager.createNativeQuery("select p.product_id, p.description, p.enabled, p.img_source, p.price, p.category_id from product p inner join order_product op on p.product_id = op.product_id group by p.product_id order by count(p.product_id) desc limit 5;", Product.class);
-		
-		@SuppressWarnings("unchecked")
-		List<Product> productList = query.getResultList();
-		
-		List<ProductCategoryModel> listToReturn = new ArrayList<ProductCategoryModel>();
-		
-		for(Product p: productList) {
-			ProductCategoryModel pcm = new ProductCategoryModel();
-			pcm.setProductId(p.getId());
-			pcm.setCategoryId(p.getCategory().getId());
-			pcm.setCategoryText(p.getCategory().getCategory().toString());
-			pcm.setProductDescription(p.getDescription());
-			pcm.setProductImgSource(p.getImgSource());
-			pcm.setProductPrice(p.getPrice());
-			pcm.setEnabled(p.isEnabled());
-			
-			listToReturn.add(pcm);
-		}
-		
-		return listToReturn;
 	}
 	
 	public void disableById(Long id) {
