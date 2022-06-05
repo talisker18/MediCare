@@ -94,7 +94,6 @@ public class ProductRepository {
 	
 	//uses a native sql query to get the top five sellers
 	public List<ProductCategoryModel> getTopFiveSellersAndReturnProductCategoryModel() {
-		// select p.product_id, p.description, count(p.product_id) from product p inner join order_product op on p.product_id = op.product_id group by p.product_id order by count(p.product_id) desc limit 5;
 		Query query = entityManager.createNativeQuery("select p.product_id, p.description, p.enabled, p.img_source, p.price, p.category_id from product p inner join order_product op on p.product_id = op.product_id group by p.product_id order by count(p.product_id) desc limit 5;", Product.class);
 		
 		@SuppressWarnings("unchecked")
@@ -232,6 +231,28 @@ public class ProductRepository {
 			pcm.setProductPrice(p.getPrice());
 			pcm.setEnabled(p.isEnabled());
 			listWithProductCategoryModel.add(pcm);
+		}
+		
+		return listWithProductCategoryModel;
+	}
+	
+	public List<ProductCategoryModel> getAllEnabledProductsByProductCategoryModel(){
+		List<Product> productList = this.getAllProducts();
+		List<ProductCategoryModel> listWithProductCategoryModel = new ArrayList<ProductCategoryModel>();
+		
+		for(Product p: productList) {
+			ProductCategoryModel pcm = new ProductCategoryModel();
+			pcm.setProductId(p.getId());
+			pcm.setCategoryId(p.getCategory().getId());
+			pcm.setCategoryText(p.getCategory().getCategory().toString());
+			pcm.setProductDescription(p.getDescription());
+			pcm.setProductImgSource(p.getImgSource());
+			pcm.setProductPrice(p.getPrice());
+			pcm.setEnabled(p.isEnabled());
+			
+			if(pcm.isEnabled()) {
+				listWithProductCategoryModel.add(pcm);
+			}
 		}
 		
 		return listWithProductCategoryModel;
