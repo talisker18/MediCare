@@ -1,12 +1,14 @@
 package com.henz.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.henz.auth.AuthenticationFacade;
 import com.henz.auth.CustomUserDetails;
+import com.henz.data_access.ProductRepository;
+import com.henz.entity.Product;
 import com.henz.entity.User;
 import com.henz.entity.VerificationToken;
 import com.henz.event.registration.RegistrationCompleteEvent;
+import com.henz.model.ProductCategoryModel;
 import com.henz.model.UserModel;
 import com.henz.service.EmailSenderService;
 import com.henz.service.UserService;
@@ -38,11 +43,27 @@ public class MainController {
 	@Autowired
 	private AuthenticationFacade authenticationFacade;
 	
+	@Autowired
+	private ProductRepository productRepository;
+	
 	@RequestMapping(value={"","/"}, method = RequestMethod.GET)
 	public ModelAndView showHomePage() {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
+		
+		//get the top 5 sellers
+		List<ProductCategoryModel> productList = this.productRepository.getTopFiveSellersAndReturnProductCategoryModel();
+		
+		mv.addObject("productList",productList);
+		
+		//get the newest product
+		ProductCategoryModel newestProduct = this.productRepository.findNewestProductAndReturnProductCategoryModel();
+		
+		List<ProductCategoryModel> productListNewest = new ArrayList<ProductCategoryModel>();
+		productListNewest.add(newestProduct);
+		
+		mv.addObject("productListNewest",productListNewest);
 		
 		return mv;
 	}
