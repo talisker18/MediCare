@@ -62,6 +62,8 @@ public class SecurityConfig { //extends WebSecurityConfigurerAdapter{
 			.antMatchers("/verifyPasswordReset/**").hasAnyAuthority("ADMIN","USER")
 			.antMatchers("/savePassword/**").hasAnyAuthority("ADMIN","USER")
 			.antMatchers("/order/**").hasAnyAuthority("ADMIN","USER")
+			.antMatchers("/showOrderlist/**").hasAnyAuthority("ADMIN","USER")
+			.antMatchers("/showOrderDetails/**").hasAnyAuthority("ADMIN","USER")
 			//.antMatchers(WHITE_LIST_URLS).permitAll()
 			.and().formLogin().loginPage("/login");
 		

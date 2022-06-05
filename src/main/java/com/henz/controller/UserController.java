@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.henz.auth.AuthenticationFacade;
+import com.henz.auth.CustomUserDetails;
+import com.henz.data_access.OrderRepository;
 import com.henz.data_access.ProductRepository;
+import com.henz.entity.Order;
+import com.henz.entity.Product;
 import com.henz.entity.ShoppingCart;
 import com.henz.entity.User;
 import com.henz.model.PasswordModel;
@@ -42,6 +46,9 @@ public class UserController {
 	
 	@Autowired
 	private AuthenticationFacade authenticationFacade;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 	
 	@RequestMapping(value = "/resetPasswordForm", method = RequestMethod.GET)
 	public ModelAndView resetPassword() {
@@ -142,6 +149,80 @@ public class UserController {
 		this.shoppingCart.removeFromShoppingCart(productId);
 		
 		return "redirect:/shoppingCart";
+	}
+	
+	@RequestMapping(value ="/order", method = RequestMethod.POST)
+	public ModelAndView showOrderConfirmation() {
+		ModelAndView mv = new ModelAndView("user/order-confirmation");
+
+		if(this.shoppingCart.getListOfProducts().isEmpty()) {
+			mv.addObject("confirmationMessage","Your shopping cart was empty. No order created!");
+		}else {
+			//create order
+			Order o = new Order();
+			User user = null;
+			
+			Authentication authentication = this.authenticationFacade.getAuthentication();
+			if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+			    user = userDetails.getUser();
+			}
+			
+			o.setUser(user);
+			
+			List<Product> productList = this.productRepository
+					.convertListWithModelObjectsToListWithProductEntities(this.shoppingCart.getListOfProducts());
+			
+			o.setProducts(productList);
+			
+			double total = 0;
+			
+			for(Product p: productList) {
+				total += p.getPrice();
+			}
+			
+			o.setTotal(total);
+			
+			this.orderRepository.saveNewOrder(o);
+			mv.addObject("confirmationMessage","Thanks for your order! (Order No = "+o.getId()+")");
+			
+			//clear shopping cart for next order
+			this.shoppingCart.emptyShoppingCart();
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping(value ="/showOrderlist", method = RequestMethod.GET)
+	public ModelAndView showOrderList() {
+		ModelAndView mv = new ModelAndView("profile-dropdown/my-medicare/order/order-list");
+		
+		User user = null;
+		
+		Authentication authentication = this.authenticationFacade.getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		    user = userDetails.getUser();
+		}
+		
+		Optional<List<Order>> orderList = this.orderRepository.getAllOrdersByUserId(user.getId());
+		mv.addObject("orderList", orderList.get());
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "/showOrderDetails", method = RequestMethod.GET)
+	public ModelAndView showOrderDetails(@RequestParam("orderId") Long orderId) {
+		ModelAndView mv = new ModelAndView("profile-dropdown/my-medicare/order/order-details");
+		Order order = this.orderRepository.findById(orderId);
+		List<Product> productList = this.orderRepository.getAllProductsOfOrder(orderId);
+		List<ProductCategoryModel> productModelList = 
+				this.productRepository.convertListWithProductEntitiesToListWithModelObjects(productList);
+		
+		mv.addObject("productModelList", productModelList);
+		mv.addObject("order", order);
+		
+		return mv;
 	}
 	
 	/*
