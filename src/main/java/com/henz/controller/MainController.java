@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.henz.auth.AuthenticationFacade;
 import com.henz.auth.CustomUserDetails;
 import com.henz.data_access.ProductRepository;
-import com.henz.entity.Product;
 import com.henz.entity.User;
 import com.henz.entity.VerificationToken;
 import com.henz.event.registration.RegistrationCompleteEvent;

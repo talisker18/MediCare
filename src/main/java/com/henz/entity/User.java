@@ -52,8 +52,8 @@ public class User {
 	
 	private boolean enabled = false;
 	
-	/*@OneToMany(mappedBy = "user")
-	private List<Order> orders = new ArrayList<Order>();*/
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders = new ArrayList<Order>();
 	
 	public Long getId() {
 		return id;
@@ -104,12 +104,12 @@ public class User {
 		this.enabled = enabled;
 	}
 	
-	/*public List<Order> getOrders() {
+	public List<Order> getOrders() {
 		return orders;
 	}
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
-	}*/
+	}
 	
 	@Override
 	public String toString() {
