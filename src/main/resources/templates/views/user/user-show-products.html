@@ -64,7 +64,7 @@
 					<td th:text="${product.productPrice}"></td>
 					<td>
 						<form th:action="@{/addToCart}" method="post">
-							<button class="btn btn-primary" type="submit" onclick="return showPopup()">Add to Cart</button>
+							<button class="btn btn-primary" type="submit" onclick="return showPopup()" th:id="'buttonAddProduct' + ${product.productId}">Add to Cart</button>
 							<input type="hidden" name="productId" th:value="${product.productId}">
 						</form>
 					</td>

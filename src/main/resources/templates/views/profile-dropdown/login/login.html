@@ -27,7 +27,7 @@
 	      	  	<p class="text-danger">Invalid Username or Password</p>
 	      	</div>
 	      	<div th:if="${param.logout}">
-	      	  	<p class="text-warning">You have been logged out</p>
+	      	  	<p class="text-warning" id="loggedOutMessage">You have been logged out</p>
 	      	</div>
 	      	<!-- with Spring security and custom login page, we do not have to define a controller method for post /login -->
 	      	<form th:action="@{/login}" method="post" class="font-weight-bold" style="max-width: 350px; margin: 0 auto;">
@@ -41,7 +41,7 @@
 	              		<input type="password" id="password" name="password" class="form-control" required/>
 	      			</p>
 	      			<p>
-	      				<input type="submit" value="Login" class="btn btn-primary"/>
+	      				<input type="submit" value="Login" class="btn btn-primary" id="loginButton"/>
 	      			</p>
 	      		</div>
 	         </form>

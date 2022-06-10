@@ -1,9 +1,14 @@
 package com.henz;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+//import org.openqa.selenium.WebDriver;
+//import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,14 +25,15 @@ import com.henz.entity.User;
 @Transactional
 public class MediCareApplication implements CommandLineRunner{
 	
-	@Autowired
+	/*@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
 	private ProductRepository productRepository;
 	
 	@Autowired
-	private OrderRepository orderRepository;
+	private OrderRepository orderRepository;*/
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(MediCareApplication.class, args);
@@ -36,6 +42,7 @@ public class MediCareApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
+		
 		
 		/*
 		 * use these lines to add some orders
@@ -186,6 +193,26 @@ public class MediCareApplication implements CommandLineRunner{
 		this.orderRepository.saveNewOrder(o5);
 		this.orderRepository.saveNewOrder(o6);
 		this.orderRepository.saveNewOrder(o7);*/
+		
+		
+		/*Properties prop = new Properties();
+		
+		FileInputStream configPropfile = new FileInputStream("config.properties");
+		prop.load(configPropfile); //load input stream into properties object
+		
+		String br = prop.getProperty("browser");
+		
+		if(br.equals("chrome")) {
+			System.setProperty("webdriver.chrome.driver", prop.getProperty("chromepath"));
+			System.out.println(prop.getProperty("chromepath"));
+			driver = new ChromeDriver(); 
+		}
+		
+		driver.get("http://localhost:8097");
+	    driver.manage().window().maximize();
+	    
+	    driver.quit();*/
+		
 	}
 
 }
