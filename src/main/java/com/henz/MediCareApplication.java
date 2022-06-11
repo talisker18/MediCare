@@ -194,25 +194,6 @@ public class MediCareApplication implements CommandLineRunner{
 		this.orderRepository.saveNewOrder(o6);
 		this.orderRepository.saveNewOrder(o7);*/
 		
-		
-		/*Properties prop = new Properties();
-		
-		FileInputStream configPropfile = new FileInputStream("config.properties");
-		prop.load(configPropfile); //load input stream into properties object
-		
-		String br = prop.getProperty("browser");
-		
-		if(br.equals("chrome")) {
-			System.setProperty("webdriver.chrome.driver", prop.getProperty("chromepath"));
-			System.out.println(prop.getProperty("chromepath"));
-			driver = new ChromeDriver(); 
-		}
-		
-		driver.get("http://localhost:8097");
-	    driver.manage().window().maximize();
-	    
-	    driver.quit();*/
-		
 	}
 
 }
