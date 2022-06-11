@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,7 @@ class MediCareApplicationTests {
 		this.pageCollection.quitBrowser();
 	}
 	
+	@Disabled
 	@Test
 	void contextLoads() {
 		System.out.println("app url: "+this.appUrl);
@@ -93,6 +95,7 @@ class MediCareApplicationTests {
 	 * to enable better observation what is going on on the UI
 	 * 
 	 * */
+	@Disabled
 	@Test
 	void endToEndTest() throws InterruptedException {
 		
